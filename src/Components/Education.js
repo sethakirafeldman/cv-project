@@ -4,34 +4,37 @@ class Education extends React.Component {
     constructor(props) {
         super(props);
     }
+    // A section to add your educational experience (school name, title of study, date of study)
 
-    // A section to add general information like name, email, phone number.
     render() {
+        const { data, handleChange, handleSubmit } = this.props;
+
         return (
         <section>
             <h1>Education</h1>
-            <form onSubmit={this.props.handleSubmit}>
-                <label>Name:</label>
+            <form id = "education" onSubmit={this.props.handleSubmit}>
+                <label>School:</label>
                 <input 
                     type="text" 
-                    value="temp state"
-                    onChange={this.props.handleChange}
+                    value= {data.education.school}
+                    onChange={(event)=>this.props.handleChange(event)}
                 >                                 
                 </input>
-                <label>Email:</label>
+                <label>Degree:</label>
                 <input 
                     type="text" 
-                    value="temp state"
-                    onChange={this.props.handleChange}
+                    value={data.education.degree}
+                    onChange={(event) => this.props.handleChange(event)}
                 >                                 
                 </input>
-                <label>Phone:</label>
+                <label>Year:</label>
                 <input 
-                    type="text" 
-                    value="temp state"
-                    onChange={this.props.handleChange}
+                    type="number" 
+                    value= {data.education.year}
+                    onChange={(event) => this.props.handleChange(event)}
                 >                                 
-                </input>        
+                </input>    
+                <input type="submit" value="Submit"></input>    
             </form>
         </section>)
     }
