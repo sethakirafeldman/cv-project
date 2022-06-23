@@ -1,0 +1,17 @@
+.App {
+    display: flex;
+    flex-direction: column;
+}
+form {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+label {
+    grid-column: 1 / 2;
+}
+
+input {
+    grid-column: 2 /3;
+
+}
