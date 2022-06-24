@@ -13,14 +13,20 @@ class App extends React.Component {
       general: {
           name: "",
           email: "",
-          phone: null,
+          phone: "",
+          saved: false,
       },
 
       education: {
           school: "",
           degree: "",
           year: "",
-      }  
+          saved: false,
+      },
+      
+      practical: {
+
+      }
 }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,15 +37,23 @@ class App extends React.Component {
     let parentId = event.target.parentElement.id;
     //  field name
     let field = event.target.closest("input").name;
-    
-    this.setState({[parentId]: {[field]: event.target.value}});
-
+    this.setState((prevState) => (
+      {[parentId]: {
+          ...prevState[parentId],
+          [field]: event.target.value}
+      }
+      )
+    );
     console.log(this.state)
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(`submit`);
+    console.log(this.state.general)
+    
+    this.setState({[event.target.id]: {saved: true}});
+    // if there are values submitted
+    //conditionally render those values as non-editable
   }
 
   render() {
@@ -52,16 +66,14 @@ class App extends React.Component {
           data = {this.state}
         />
         <Education 
-            handleChange = {this.handleChange}
-            handleSubmit = {this.handleSubmit}
-            data = {this.state}
-
+          handleChange = {this.handleChange}
+          handleSubmit = {this.handleSubmit}
+          data = {this.state}
         />
         <Practical 
           handleChange = {this.handleChange}
           handleSubmit = {this.handleSubmit}
           data = {this.state}
-
         />
     </div>
   )

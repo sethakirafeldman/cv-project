@@ -9,33 +9,40 @@ class General extends React.Component {
 
     render() {
         const { data, handleChange, handleSubmit } = this.props;
-        
+
         return (
         <section>
             <h1>General</h1>
-            <form id= "general" onSubmit={handleSubmit}>
+            <form id= "general" onSubmit={(event)=>handleSubmit(event)}>
                 <label>Name: </label>
-                <input
-                    name="name"
-                    type="text"
-                    value= {data.general.name}
-                    onChange={(event)=>this.props.handleChange(event)}
-                >
-                </input>
+                {!data.general.saved ? 
+                    <input
+                        required
+                        name="name"
+                        type="text"
+                        value= {data.general.name}
+                        onChange={(event) => handleChange(event)}
+                    >
+                    </input> : <p>{data.general.name}</p> }
+                
                 <label>Email</label>
-                <input
-                    name="email"
-                    type="text"
-                    value= {data.general.email}
-                    onChange={(event)=>this.props.handleChange(event)}
-                >
-                </input>
+                {!data.general.saved ? 
+                    <input
+                        required
+                        name="email"
+                        type="text"
+                        value= {data.general.email}
+                        onChange={(event)=> handleChange(event)}
+                    >
+                    </input> : <p>{data.general.email}</p> }
+                
                 <label>Phone</label>
                 <input
+                    required
                     name="phone"
                     type="tel"
                     value= {data.general.phone}
-                    onChange={(event)=>this.props.handleChange(event)}
+                    onChange={(event)=> handleChange(event)}
                 >
                 </input>
                 <input type="submit" value="Submit"></input>
