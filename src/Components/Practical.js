@@ -7,36 +7,66 @@ class Practical extends React.Component {
     }
     
     render() {
-        const {data} = this.props;
+        const {data, handleChange, handleSubmit} = this.props;
 
         return (
         <section>
             <h1>Practical Skills</h1>
-            <form id="practical" onSubmit={this.props.handleSubmit}>
+            <form id="practical" onSubmit={(event) => handleSubmit(event)}>
                 <label>Company: </label>
-                <input
+                {!data.practical.saved ? 
+                    <input
+                    required
                     name="company"
                     type="text"
-                    value="test"
-                    onChange={(event)=> this.props.handleChange(event)}
-                >    
-                </input>
+                    value= {data.practical.company}
+                    onChange={(event)=> handleChange(event)}
+                    >    
+                    </input>
+                    :
+                    <p>{data.practical.company}</p>
+                }
                 <label>Role: </label>
-                <input
+                {!data.practical.saved ? 
+                    <input
+                    required
                     name="role"
                     type ="text"
-                    value="test"
-                    onChange={(event)=> this.props.handleChange(event)}
-                >
-                </input>
+                    value= {data.practical.role}
+                    onChange={(event)=> handleChange(event)}
+                    >
+                    </input>
+                    :
+                    <p>{data.practical.role}</p>
+                }
 
-                <label>Date: </label>
+                <label>Start Date: </label>
+              {!data.practical.saved ?
+              
                 <input
-                    name ="date"
-                    type="text"
-                    value ="test"
-                    onChange={(event)=> this.props.handleChange}
+                    required
+                    name ="startDate"
+                    type="date"
+                    value ={data.practical.startDate}
+                    onChange={(event)=> handleChange(event)}
+                    ></input>
+                    :
+                    <p>{data.practical.startDate}</p>
+                }
+
+            <label>End Date: </label>
+            {!data.practical.endDate ?
+                 <input
+                 required
+                 name ="endDate"
+                 type="date"
+                 value = {data.practical.endDate}
+                 onChange={(event)=> handleChange(event)}
                 ></input>
+                :
+                <p>{data.practical.endDate}</p>
+            }
+               
                 <input type="submit" value="Submit"></input>
 
             </form>

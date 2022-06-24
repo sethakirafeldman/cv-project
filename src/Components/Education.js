@@ -15,32 +15,45 @@ class Education extends React.Component {
             <h1>Education</h1>
             <form id = "education" onSubmit={(event)=>handleSubmit(event)}>
                 <label>School:</label>
-                <input 
+                {!data.education.saved ? 
+                    <input 
                     required
                     name="school"
                     type="text" 
                     value= {data.education.school}
                     onChange={(event)=> handleChange(event)}
-                >                                 
-                </input>
+                     >                                 
+                    </input> 
+                    :
+                    <p>{data.education.school}</p>
+                }
                 <label>Degree:</label>
-                <input 
+                {!data.education.saved ? 
+                    <input 
                     required
                     name="degree"
                     type="text" 
                     value={data.education.degree}
                     onChange={(event) => handleChange(event)}
-                >                                 
-                </input>
+                    >                                 
+                    </input>
+                    : 
+                    <p>{data.education.degree}</p>
+                }
                 <label>Year:</label>
-                <input 
-                    required
-                    name="year"
-                    type="number" 
-                    value= {data.education.year}
-                    onChange={(event) => handleChange(event)}
-                >                                 
-                </input>    
+                {!data.education.year ? 
+                     <input 
+                     required
+                     name="year"
+                     type="number" 
+                     value= {data.education.year}
+                     onChange={(event) => handleChange(event)}
+                    >                                 
+                    </input>  
+                    :
+                    <p>{data.education.year}</p>  
+                }
+               
                 <input type="submit" value="Submit"></input>    
             </form>
         </section>)
