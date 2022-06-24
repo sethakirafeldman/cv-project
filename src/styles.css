@@ -4,6 +4,7 @@
 }
 form {
     display: grid;
+    place-items: center;
     grid-template-columns: 100px 1fr;
 }
 
@@ -12,6 +13,16 @@ label {
 }
 
 input {
+    
     grid-column: 2 /3;
+    width: 25%;
+}
 
+form > p {
+    margin:0;
+    width: 25%;
+
+    height: 1em;
+    text-align: left;
+    background-color: green;
 }
