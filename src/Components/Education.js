@@ -13,9 +13,11 @@ class Education extends React.Component {
         return (
         <section>
             <h1>Education</h1>
-            <form id = "education" onSubmit={handleSubmit}>
+            <form id = "education" onSubmit={(event)=>handleSubmit(event)}>
                 <label>School:</label>
                 <input 
+                    required
+                    name="school"
                     type="text" 
                     value= {data.education.school}
                     onChange={(event)=> handleChange(event)}
@@ -23,6 +25,8 @@ class Education extends React.Component {
                 </input>
                 <label>Degree:</label>
                 <input 
+                    required
+                    name="degree"
                     type="text" 
                     value={data.education.degree}
                     onChange={(event) => handleChange(event)}
@@ -30,6 +34,8 @@ class Education extends React.Component {
                 </input>
                 <label>Year:</label>
                 <input 
+                    required
+                    name="year"
                     type="number" 
                     value= {data.education.year}
                     onChange={(event) => handleChange(event)}

@@ -37,6 +37,7 @@ class App extends React.Component {
     let parentId = event.target.parentElement.id;
     //  field name
     let field = event.target.closest("input").name;
+    console.log(field)
     this.setState((prevState) => (
       {[parentId]: {
           ...prevState[parentId],
