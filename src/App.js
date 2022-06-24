@@ -44,14 +44,20 @@ class App extends React.Component {
       }
       )
     );
-    console.log(this.state)
   }
 
   handleSubmit(event) {
-    event.preventDefault();
-    console.log(this.state.general)
-    
-    this.setState({[event.target.id]: {saved: true}});
+    event.preventDefault();    
+    // this.setState(
+    //   {[event.target.id]: {saved: true}});
+    this.setState((prevState) => ({
+      [event.target.id]: {
+        ...prevState[event.target.id],
+        saved:true
+      }
+    }));
+
+    console.log(this.state);
     // if there are values submitted
     //conditionally render those values as non-editable
   }
