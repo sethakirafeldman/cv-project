@@ -33,6 +33,7 @@ class App extends React.Component {
 }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
 }
 
   handleChange(event) {
@@ -52,17 +53,27 @@ class App extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();    
-    this.setState((prevState) => ({
-      [event.target.id]: {
+    this.setState((prevState) => (
+      {[event.target.id]: {
         ...prevState[event.target.id],
-        saved:true
+        saved: true
       }
-    }));
-
-    console.log(this.state);
-    // if there are values submitted
-    //conditionally render those values as non-editable
+      }
+    ));
   }
+
+  handleEdit(event) {
+    event.preventDefault();
+    let parentId = event.target.parentElement.id;
+    console.log(this.state[parentId]);
+    this.setState((prevState)=> (
+      {[parentId]: {
+        ...prevState[parentId],
+        saved: false
+      }
+      }
+    ))
+  };
 
   render() {
   return (
@@ -71,16 +82,19 @@ class App extends React.Component {
         <General 
           handleChange = {this.handleChange}
           handleSubmit = {this.handleSubmit}
+          handleEdit = {this.handleEdit}
           data = {this.state}
         />
         <Education 
           handleChange = {this.handleChange}
           handleSubmit = {this.handleSubmit}
+          handleEdit = {this.handleEdit}
           data = {this.state}
         />
         <Practical 
           handleChange = {this.handleChange}
           handleSubmit = {this.handleSubmit}
+          handleEdit = {this.handleEdit}
           data = {this.state}
         />
     </div>

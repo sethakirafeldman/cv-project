@@ -8,7 +8,8 @@ class General extends React.Component {
     }
 
     render() {
-        const { data, handleChange, handleSubmit } = this.props;
+        const { data, handleChange, handleSubmit, handleEdit } = this.props;
+
         return (
         <section>
             <h1>General</h1>
@@ -47,10 +48,16 @@ class General extends React.Component {
                     </input>
                 : <p>{data.general.phone}</p>
                 }
-                <input type="submit" value="Submit"></input>
-
-                
-            
+                {!data.general.saved ? 
+                    <input type="submit" value="Submit"></input>
+                    :
+                    <input 
+                        type="button" 
+                        value="Edit"
+                        onClick={(event)=> handleEdit(event)}
+                        >
+                    </input>
+                }
             </form>
         </section>
         )
