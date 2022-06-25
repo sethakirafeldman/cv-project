@@ -8,7 +8,7 @@ class Education extends React.Component {
 
     render() {
         // destructures props into objs
-        const { data, handleChange, handleSubmit } = this.props;
+        const { data, handleChange, handleSubmit, handleEdit } = this.props;
 
         return (
         <section>
@@ -41,7 +41,7 @@ class Education extends React.Component {
                     <p>{data.education.degree}</p>
                 }
                 <label>Year:</label>
-                {!data.education.year ? 
+                {!data.education.saved ? 
                      <input 
                      required
                      name="year"
@@ -53,8 +53,14 @@ class Education extends React.Component {
                     :
                     <p>{data.education.year}</p>  
                 }
-               
-                <input type="submit" value="Submit"></input>    
+               {!data.education.saved ? 
+                    <input type="submit" value="Submit"></input>   
+                    :
+                    <input type ="button" value = "Edit"
+                        onClick={(event)=> handleEdit(event)}
+                    ></input>
+               }
+                
             </form>
         </section>)
     }
