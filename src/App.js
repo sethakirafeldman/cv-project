@@ -34,6 +34,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.mapData = this.mapData.bind(this);
 }
 
   handleChange(event) {
@@ -72,9 +73,42 @@ class App extends React.Component {
         saved: false
       }
       }
-    ))
-    
+    ))   
   };
+
+  mapData(section) {
+    const stateData = this.state[section];
+    const formFields = Object.entries(stateData).slice(0, -1);
+    
+    return (
+      formFields.map((item) => {
+        console.log(item)
+        console.log(stateData)
+        // item consists of name of field ((0) and field val (1)
+        return (
+
+        !stateData.saved ?   
+        <>
+            <label>{`${item[0][0].toUpperCase()}${item[0].substring(1)}: `}</label>
+            <input
+                required
+                name = {item[0]}
+                type = {item[0] == "phone" ? "tel" : "text"}
+                value = {item[1]}
+                onChange={(event) => this.handleChange(event)}
+            >
+            </input>
+        </>
+        :
+        <>
+            <label>{`${item[0][0].toUpperCase()}${item[0].substring(1)}: `}</label>
+            <p>{item[1]}</p>
+        </>
+
+        )
+      }) 
+    )
+  }
 
   render() {
   return (
@@ -84,6 +118,7 @@ class App extends React.Component {
           handleChange = {this.handleChange}
           handleSubmit = {this.handleSubmit}
           handleEdit = {this.handleEdit}
+          mapData = {this.mapData}
           data = {this.state}
         />
         <Education 

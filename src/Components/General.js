@@ -8,14 +8,14 @@ class General extends React.Component {
     }
     
     render() {
-        const { data, handleChange, handleSubmit, handleEdit } = this.props;
-        const formFields = Object.entries(data.general).slice(0, -1);
+        const { data, handleChange, handleSubmit, handleEdit, mapData } = this.props;
+        // const formFields = Object.entries(data.general).slice(0, -1);
 
         return (
         <section>
              <h1>General</h1>
             <form id= "general" onSubmit={(event)=>handleSubmit(event)}>
-                { formFields.map((item)=>{
+                {/* { formFields.map((item)=>{
                     // item consists of name of field ((0) and field val (1)
                     return (
 
@@ -39,8 +39,10 @@ class General extends React.Component {
 
                     )
                 })
-                }
-                
+                } */}
+
+                {mapData("general")}
+
                 {!data.general.saved ? 
                     <input type="submit" value="Submit"></input>
                     :
