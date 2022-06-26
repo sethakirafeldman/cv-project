@@ -1,6 +1,7 @@
 import React from "react";
 import './App.css';
 import './styles.css';
+import uniqid from "uniqid";
 import Education from "./Components/Education";
 import General from './Components/General';
 import Practical from './Components/Practical';
@@ -28,7 +29,8 @@ class App extends React.Component {
         company: "",
         role:"",
         startDate: "",
-        endDate: ""
+        endDate: "",
+        saved: false
       }
 }
     this.handleChange = this.handleChange.bind(this);
@@ -76,24 +78,45 @@ class App extends React.Component {
     ))   
   };
 
-  mapData(section) {
+  mapData(section, numType) {
     const stateData = this.state[section];
     const formFields = Object.entries(stateData).slice(0, -1);
-    
+    let uniqueKey = uniqid();
+
+    const checkNum = (itemType)=> {
+      if (itemType === "phone") {
+        return "tel";
+      }
+      else if ( itemType === "year") {
+        return "number";
+      }
+
+      else if ( itemType === "date") {
+        return "date";
+      }
+
+      else {
+        return "text";
+      }
+    }
+
     return (
       formFields.map((item) => {
-        console.log(item)
-        console.log(stateData)
+        // console.log(item)
+        // console.log(stateData)
         // item consists of name of field ((0) and field val (1)
+        const getTitle = `${item[0][0].toUpperCase()}${item[0].substring(1)}`;
+        // check for uppercasea letter in string then add space before if so.
+
         return (
 
         !stateData.saved ?   
         <>
-            <label>{`${item[0][0].toUpperCase()}${item[0].substring(1)}: `}</label>
+            <label key= {uniqueKey}>{`${getTitle}: `}</label>
             <input
                 required
                 name = {item[0]}
-                type = {item[0] == "phone" ? "tel" : "text"}
+                type = {checkNum(item[0])}
                 value = {item[1]}
                 onChange={(event) => this.handleChange(event)}
             >
@@ -125,12 +148,14 @@ class App extends React.Component {
           handleChange = {this.handleChange}
           handleSubmit = {this.handleSubmit}
           handleEdit = {this.handleEdit}
+          mapData = {this.mapData}
           data = {this.state}
         />
         <Practical 
           handleChange = {this.handleChange}
           handleSubmit = {this.handleSubmit}
           handleEdit = {this.handleEdit}
+          mapData = {this.mapData}
           data = {this.state}
         />
     </div>
