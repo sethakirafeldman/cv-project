@@ -28,8 +28,9 @@ class App extends React.Component {
       practical: {
         company: "",
         role:"",
-        startDate: "",
-        endDate: "",
+        description:"",
+        start: "",
+        end: "",
         saved: false
       }
 }
@@ -78,7 +79,7 @@ class App extends React.Component {
     ))   
   };
 
-  mapData(section, numType) {
+  mapData(section) {
     const stateData = this.state[section];
     const formFields = Object.entries(stateData).slice(0, -1);
     let uniqueKey = uniqid();
@@ -95,6 +96,10 @@ class App extends React.Component {
         return "date";
       }
 
+      else if (itemType ==="description") {
+        return "textarea";
+      }
+
       else {
         return "text";
       }
@@ -102,18 +107,21 @@ class App extends React.Component {
 
     return (
       formFields.map((item) => {
-        // console.log(item)
-        // console.log(stateData)
         // item consists of name of field ((0) and field val (1)
         const getTitle = `${item[0][0].toUpperCase()}${item[0].substring(1)}`;
-        // check for uppercasea letter in string then add space before if so.
-
         return (
-
         !stateData.saved ?   
         <>
             <label key= {uniqueKey}>{`${getTitle}: `}</label>
-            <input
+            {item[0] === "description" ? 
+              <textarea 
+                required
+                onChange={(event) => this.handleChange(event)}
+                name = {item[0]}
+                value = {item[1]}
+              /> 
+              : 
+              <input
                 required
                 name = {item[0]}
                 type = {checkNum(item[0])}
@@ -121,6 +129,9 @@ class App extends React.Component {
                 onChange={(event) => this.handleChange(event)}
             >
             </input>
+            }
+            
+
         </>
         :
         <>

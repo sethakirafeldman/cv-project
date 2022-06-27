@@ -3,26 +3,31 @@
     flex-direction: column;
 }
 form {
-    display: grid;
-    place-items: center;
-    grid-template-columns: 100px 1fr;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
-label {
-    grid-column: 1 / 2;
+ label {
 }
 
 input {
-    
-    grid-column: 2 /3;
-    width: 25%;
+    justify-content: center;
+    margin: auto;
+    width: 5rem;
+} 
+
+input:focus {
+    outline: 2px solid lightgreen
 }
 
 form > p {
-    margin:0;
-    width: 25%;
-
+    margin:auto;
+    width: fit-content;
+    padding: .5em;
     height: 1em;
-    text-align: left;
-    background-color: green;
+    border-color: green;
+    border-style: solid;
 }
+
+
