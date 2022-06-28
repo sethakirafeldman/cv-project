@@ -21,6 +21,11 @@ input:focus {
     outline: 2px solid lightgreen
 }
 
+textarea {
+    width: 10rem;
+    margin: auto;
+}
+
 form > p {
     margin:auto;
     width: fit-content;

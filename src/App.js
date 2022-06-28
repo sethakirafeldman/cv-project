@@ -40,12 +40,14 @@ class App extends React.Component {
     this.mapData = this.mapData.bind(this);
 }
 
-  handleChange(event) {
+  handleChange(event, inputType) {
     //  form name
-    let parentId = event.target.parentElement.id;
-    //  field name
-    let field = event.target.closest("input").name;
-    console.log(event)
+    const parentId = event.target.parentElement.id;
+    let field;
+    inputType === "description" 
+      ? field = event.target.closest("textarea").name 
+      : field = event.target.closest("input").name;
+
     this.setState((prevState) => (
       {[parentId]: {
           ...prevState[parentId],
@@ -53,6 +55,7 @@ class App extends React.Component {
       }
       )
     );
+
   }
 
   handleSubmit(event) {
@@ -92,7 +95,7 @@ class App extends React.Component {
         return "number";
       }
 
-      else if ( itemType === "date") {
+      else if ( itemType === "start" || itemType === "end" ) {
         return "date";
       }
 
@@ -116,9 +119,10 @@ class App extends React.Component {
             {item[0] === "description" ? 
               <textarea 
                 required
-                onChange={(event) => this.handleChange(event)}
+                rows ="4"
                 name = {item[0]}
                 value = {item[1]}
+                onChange={(event) => this.handleChange(event, item[0])}
               /> 
               : 
               <input
