@@ -1,79 +1,76 @@
-import React from "react";
+import React, {useState} from "react";
 import './App.css';
 import './styles.css';
 import uniqid from "uniqid";
+
 import Education from "./Components/Education";
 import General from './Components/General';
 import Practical from './Components/Practical';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const App = () => {
 
-    this.state = {
-      general: {
-        name: "",
-        email: "",
-        phone: "",
-        saved: false,
-      },
+    const [state, setState] = useState({
+        general: {
+          name: "",
+          email: "",
+          phone: "",
+          saved: false,
+        },
 
-      education: {
-        school: "",
-        degree: "",
-        year: "",
-        saved: false,
-      },
-      
-      practical: {
-        company: "",
-        role:"",
-        description:"",
-        start: "",
-        end: "",
-        saved: false
-      }
-}
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.mapData = this.mapData.bind(this);
-}
+        education: {
+          school: "",
+          degree: "",
+          year: "",
+          saved: false,
+        },
+    
+        practical: {
+          company: "",
+          role:"",
+          description:"",
+          start: "",
+          end: "",
+          saved: false
+        }
+    });
 
-  handleChange(event, inputType) {
+  function handleChange(event) {
+    event.preventDefault();
     //  form name
-    const parentId = event.target.parentElement.id;
+    let parentId = event.target.parentElement.id;
     let field;
-    inputType === "description" 
-      ? field = event.target.closest("textarea").name 
-      : field = event.target.closest("input").name;
-
-    this.setState((prevState) => (
-      {[parentId]: {
+    field = event.target.name;
+    // inputType === "description" 
+    //   ? field = event.target.name 
+    //   : field = event.target.name;
+    // prevstate seems to be overwriting  other fields
+    setState((prevState) =>
+      ({[parentId]: {
           ...prevState[parentId],
           [field]: event.target.value}
       }
       )
     );
 
+    //the issue definitely has to do with state not saving properly 
   }
 
-  handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();    
-    this.setState((prevState) => (
-      {[event.target.id]: {
+    setState((prevState) => 
+      ({[event.target.id]: {
         ...prevState[event.target.id],
         saved: true
       }
       }
-    ));
-  }
+      )
+    );
+  };
 
-  handleEdit(event) {
+  function handleEdit(event) {
     event.preventDefault();
     let parentId = event.target.parentElement.id;
-    console.log(this.state[parentId]);
-    this.setState((prevState)=> (
+    setState((prevState)=> (
       {[parentId]: {
         ...prevState[parentId],
         saved: false
@@ -82,11 +79,14 @@ class App extends React.Component {
     ))   
   };
 
-  mapData(section) {
-    const stateData = this.state[section];
+
+  function mapData(section) {
+    
+    let stateData = state[section];
+    
     const formFields = Object.entries(stateData).slice(0, -1);
     let uniqueKey = uniqid();
-
+     
     const checkNum = (itemType)=> {
       if (itemType === "phone") {
         return "tel";
@@ -107,76 +107,75 @@ class App extends React.Component {
         return "text";
       }
     }
+  
 
     return (
-      formFields.map((item) => {
-        // item consists of name of field ((0) and field val (1)
-        const getTitle = `${item[0][0].toUpperCase()}${item[0].substring(1)}`;
+      
+      formFields.map((field) => {
+        // field consists of name of field at 0 index and field val at index 1
+        const getTitle = `${field[0][0].toUpperCase()}${field[0].substring(1)}`;
         return (
-        !stateData.saved ?   
-        <>
-            <label key= {uniqueKey}>{`${getTitle}: `}</label>
-            {item[0] === "description" ? 
-              <textarea 
-                required
-                rows ="4"
-                name = {item[0]}
-                value = {item[1]}
-                onChange={(event) => this.handleChange(event, item[0])}
-              /> 
-              : 
-              <input
-                required
-                name = {item[0]}
-                type = {checkNum(item[0])}
-                value = {item[1]}
-                onChange={(event) => this.handleChange(event)}
-            >
-            </input>
-            }
-            
-
-        </>
-        :
-        <>
-            <label>{`${item[0][0].toUpperCase()}${item[0].substring(1)}: `}</label>
-            <p>{item[1]}</p>
-        </>
+          !stateData.saved ?   
+          <>
+              <label /*key= {uniqueKey}*/>{`${getTitle}: `}</label>
+              {field[0] === "description" ? 
+                <textarea 
+                  // key = {uniqueKey}
+                  required
+                  rows ="4"
+                  name = {field[0]}
+                  value = {field[1]}
+                  onChange={(event) => handleChange(event)}
+                /> 
+                : 
+                <input
+                  // key = {uniqueKey}
+                  required
+                  name = {field[0]}
+                  type = {checkNum(field[0])}
+                  value = {field[1]}
+                  onChange={(event) => handleChange(event)}
+              >
+              </input>
+              }
+          </>
+          :
+          <>
+              <label>{`${field[0][0].toUpperCase()}${field[0].substring(1)}: `}</label>
+              <p>{field[1]}</p>
+          </>
 
         )
       }) 
     )
-  }
+  
+  };
 
-  render() {
+ 
   return (
     <div className="App">
 
         <General 
-          handleChange = {this.handleChange}
-          handleSubmit = {this.handleSubmit}
-          handleEdit = {this.handleEdit}
-          mapData = {this.mapData}
-          data = {this.state}
+          handleSubmit = {handleSubmit}
+          handleEdit = {handleEdit}
+          mapData = {mapData}
+          data = {state}
         />
         <Education 
-          handleChange = {this.handleChange}
-          handleSubmit = {this.handleSubmit}
-          handleEdit = {this.handleEdit}
-          mapData = {this.mapData}
-          data = {this.state}
+          handleSubmit = {handleSubmit}
+          handleEdit = {handleEdit}
+          mapData = {mapData}
+          data = {state}
         />
         <Practical 
-          handleChange = {this.handleChange}
-          handleSubmit = {this.handleSubmit}
-          handleEdit = {this.handleEdit}
-          mapData = {this.mapData}
-          data = {this.state}
+          handleSubmit = {handleSubmit}
+          handleEdit = {handleEdit}
+          mapData = {mapData}
+          data = {state}
         />
     </div>
   )
+  
   }
-
-}
 
 export default App;
