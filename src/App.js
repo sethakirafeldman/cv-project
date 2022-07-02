@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import './App.css';
 import './styles.css';
 import uniqid from "uniqid";
@@ -9,7 +9,7 @@ import Practical from './Components/Practical';
 
 const App = () => {
 
-    const [state, setState] = useState({
+    const [sections, setSections] = useState({
         general: {
           name: "",
           email: "",
@@ -34,30 +34,38 @@ const App = () => {
         }
     });
 
+    const parentId = useRef(0);
+    const field = useRef(0);
+
+    // sections obj looks like this:
+
+    //  sections = {
+          // general: {
+          //     name: "",
+          // }
+    //  }
+
   function handleChange(event) {
     event.preventDefault();
-    //  form name
-    let parentId = event.target.parentElement.id;
-    let field;
-    field = event.target.name;
-    // inputType === "description" 
-    //   ? field = event.target.name 
-    //   : field = event.target.name;
-    // prevstate seems to be overwriting  other fields
-    setState((prevState) =>
-      ({[parentId]: {
-          ...prevState[parentId],
-          [field]: event.target.value}
+    parentId.current = event.target.parentElement.id;
+    field.current = event.target.name;
+    // parentId and field may be wiped upon rerender
+    setSections((prevState) =>
+    // bring in previous state vals
+    ({...prevState,
+      // target current section in state
+     [parentId.current]: {
+        ...prevState[parentId.current],
+        [field.current]: event.target.value
       }
-      )
+      })
     );
 
-    //the issue definitely has to do with state not saving properly 
   }
 
   function handleSubmit(event) {
     event.preventDefault();    
-    setState((prevState) => 
+    setSections((prevState) => 
       ({[event.target.id]: {
         ...prevState[event.target.id],
         saved: true
@@ -70,7 +78,7 @@ const App = () => {
   function handleEdit(event) {
     event.preventDefault();
     let parentId = event.target.parentElement.id;
-    setState((prevState)=> (
+    setSections((prevState)=> (
       {[parentId]: {
         ...prevState[parentId],
         saved: false
@@ -82,8 +90,8 @@ const App = () => {
 
   function mapData(section) {
     
-    let stateData = state[section];
-    
+    let stateData = sections[section];
+    console.log(Object.entries(sections))
     const formFields = Object.entries(stateData).slice(0, -1);
     let uniqueKey = uniqid();
      
@@ -159,19 +167,19 @@ const App = () => {
           handleSubmit = {handleSubmit}
           handleEdit = {handleEdit}
           mapData = {mapData}
-          data = {state}
+          data = {sections}
         />
         <Education 
           handleSubmit = {handleSubmit}
           handleEdit = {handleEdit}
           mapData = {mapData}
-          data = {state}
+          data = {sections}
         />
         <Practical 
           handleSubmit = {handleSubmit}
           handleEdit = {handleEdit}
           mapData = {mapData}
-          data = {state}
+          data = {sections}
         />
     </div>
   )
