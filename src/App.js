@@ -66,13 +66,15 @@ const App = () => {
   function handleSubmit(event) {
     event.preventDefault();    
     setSections((prevState) => 
-      ({[event.target.id]: {
-        ...prevState[event.target.id],
-        saved: true
-      }
-      }
-      )
-    );
+    ({...prevState,
+      [event.target.id]:{
+      ...prevState[event.target.id],  
+      saved: true
+    } 
+    })
+  );
+
+
   };
 
   function handleEdit(event) {
@@ -91,7 +93,6 @@ const App = () => {
   function mapData(section) {
     
     let stateData = sections[section];
-    console.log(Object.entries(sections))
     const formFields = Object.entries(stateData).slice(0, -1);
     let uniqueKey = uniqid();
      
