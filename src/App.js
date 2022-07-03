@@ -79,14 +79,16 @@ const App = () => {
 
   function handleEdit(event) {
     event.preventDefault();
-    let parentId = event.target.parentElement.id;
+    let editParentId = event.target.parentElement.id;
+
     setSections((prevState)=> (
-      {[parentId]: {
-        ...prevState[parentId],
+      {...prevState,
+        [editParentId]: {
+        ...prevState[editParentId],
         saved: false
       }
       }
-    ))   
+    ))  
   };
 
 
